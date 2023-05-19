@@ -57,7 +57,7 @@ void txtbin(const char *txt, size_t len)
 
 int main(void)
 {
-    fputs("Enter any text to convert to binary: ", stdout);
+    fputs("Enter any text to convert into binary: ", stdout);
     char tmpc[2] = "0\0";
     char *input = NULL;
     int strsize = 8; /* starting size */
