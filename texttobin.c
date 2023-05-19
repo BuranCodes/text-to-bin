@@ -1,22 +1,22 @@
 /*
 * Buran
 * Text to binary translation in C language.
-* WORK IN PROGRESS
 */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#define EXPANSION_FACTOR 1.5
 
 void txtbin(const char *txt, size_t len)
 {
     char *bintxt = NULL;
     char *tmpstr = NULL;
     if ((bintxt = (char *)calloc(9*len, sizeof(char))) == NULL) {
-        fputs("Cannot create output string.", stdout);
+        fputs("Cannot create output string.", stderr);
         exit(EXIT_FAILURE);
     }
     if ((tmpstr = (char *)calloc(9*len, sizeof(char))) == NULL) {
-        fputs("Cannot create temporary string.", stdout);
+        fputs("Cannot create temporary string.", stderr);
         exit(EXIT_FAILURE);
     }
     /*
@@ -43,8 +43,9 @@ void txtbin(const char *txt, size_t len)
     }
     strcpy(tmpstr, bintxt);
     /* 
+    * WITH HUMOR
     * my bad for doing tmpstr = bintxt
-    * thanks, brain 
+    * thanks, brain and python/C++
     */
     for (int i = 0, j = strlen(tmpstr)-2;
         i < strlen(tmpstr) && j >= 0; i++, j--)
@@ -57,6 +58,33 @@ void txtbin(const char *txt, size_t len)
 
 int main(void)
 {
-    txtbin("Hello!", 6);
+    fputs("Enter any text to convert to binary: ", stdout);
+    char tmpc[2] = "0\0";
+    char *input = NULL;
+    int strsize = 8; /* starting size */
+    int tmp = EOF;
+
+    if ((input =(char *)calloc(strsize, sizeof(char))) == NULL) {
+        fputs("Cannot create input string.", stderr);
+        exit(EXIT_FAILURE);
+    }
+    while (tmp) {
+        tmp = fgetc(stdin);
+
+        if (tmp == EOF || tmp == '\n')
+            tmp = 0;
+
+        if (strlen(input) == strsize-1) {
+            strsize *= EXPANSION_FACTOR;
+            if ((input = (char *)realloc(input, strsize)) == NULL) {
+                fputs("Reallocation failed.", stderr);
+                exit(EXIT_FAILURE);
+            }
+        }
+        tmpc[0] = (char)tmp;
+        strcat(input, tmpc);
+    }
+    txtbin(input, strlen(input));
+    free(input);
     return EXIT_SUCCESS;
 }
