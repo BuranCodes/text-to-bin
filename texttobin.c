@@ -23,7 +23,6 @@ void txtbin(const char *txt, size_t len)
      * in this case, 9 instead of 8 since it includes spaces to
      * separate binary substrings; \0 needed too when done looping thru text
     */
-
    for (int i = len-1; i >= 0; i--) {
         char tmp[9] = "";
         int bc = txt[i];
