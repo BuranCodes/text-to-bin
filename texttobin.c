@@ -50,7 +50,7 @@ void txtbin(const char *txt, size_t len)
         i < strlen(tmpstr) && j >= 0; i++, j--)
         bintxt[i] = tmpstr[j];
 
-     fprintf(stdout, "Resulting binary output: %s", bintxt);
+     fprintf(stdout, "Resulting binary of said text is: %s", bintxt);
      free(bintxt);
      free(tmpstr);
 }
